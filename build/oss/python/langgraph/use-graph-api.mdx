@@ -28,7 +28,8 @@ uv add langgraph
 
 <Tip>
 **Set up LangSmith for better debugging**
-Sign up for [LangSmith](https://smith.langchain.com) to quickly spot issues and improve the performance of your LangGraph projects. LangSmith lets you use trace data to debug, test, and monitor your LLM apps built with LangGraph — read more about how to get started in the [docs](https://docs.smith.langchain.com).
+
+Sign up for [LangSmith](https://smith.langchain.com) to quickly spot issues and improve the performance of your LangGraph projects. LangSmith lets you use trace data to debug, test, and monitor your LLM apps built with LangGraph — read more about how to get started in the [docs](/langsmith/observability).
 </Tip>
 
 ## Define and update state
@@ -433,7 +434,7 @@ Output of graph invocation: {'a': 'set by node_3'}
 
 
 
-### Use Pydantic models for graph state
+### Use pydantic models for graph state
 
 A [StateGraph](https://langchain-ai.github.io/langgraph/reference/graphs.md#langgraph.graph.StateGraph) accepts a [`state_schema`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.AgentMiddleware.state_schema) argument on initialization that specifies the "shape" of the state that the nodes in the graph can access and update.
 
@@ -444,7 +445,7 @@ Here, we'll see how a [Pydantic BaseModel](https://docs.pydantic.dev/latest/api/
 <Note>
 **Known Limitations**
 * Currently, the output of the graph will **NOT** be an instance of a pydantic model.
-* Run-time validation only occurs on inputs into nodes, not on the outputs.
+* Run-time validation only occurs on inputs to the first node in the graph, not on subsequent nodes or outputs.
 * The validation error trace from pydantic does not show which node the error arises in.
 * Pydantic's recursive validation can be slow. For performance-sensitive applications, you may want to consider using a `dataclass` instead.
 </Note>
@@ -686,8 +687,8 @@ print(graph.invoke({}, context={"my_runtime_value": "b"}))  # [!code highlight]
       model_provider: str = "anthropic"
 
   MODELS = {
-      "anthropic": init_chat_model("anthropic:claude-3-5-haiku-latest"),
-      "openai": init_chat_model("openai:gpt-4.1-mini"),
+      "anthropic": init_chat_model("claude-haiku-4-5-20251001"),
+      "openai": init_chat_model("gpt-4.1-mini"),
   }
 
   def call_model(state: MessagesState, runtime: Runtime[ContextSchema]):
@@ -714,7 +715,7 @@ print(graph.invoke({}, context={"my_runtime_value": "b"}))  # [!code highlight]
   ```
 
   ```
-  claude-3-5-haiku-20241022
+  claude-haiku-4-5-20251001
   gpt-4.1-mini-2025-04-14
   ```
 
@@ -739,8 +740,8 @@ print(graph.invoke({}, context={"my_runtime_value": "b"}))  # [!code highlight]
       system_message: str | None = None
 
   MODELS = {
-      "anthropic": init_chat_model("anthropic:claude-3-5-haiku-latest"),
-      "openai": init_chat_model("openai:gpt-4.1-mini"),
+      "anthropic": init_chat_model("claude-haiku-4-5-20251001"),
+      "openai": init_chat_model("gpt-4.1-mini"),
   }
 
   def call_model(state: MessagesState, runtime: Runtime[ContextSchema]):
@@ -827,7 +828,7 @@ In addition, for exceptions from popular http request libraries such as `request
   from langchain.messages import AIMessage
 
   db = SQLDatabase.from_uri("sqlite:///:memory:")
-  model = init_chat_model("anthropic:claude-3-5-haiku-latest")
+  model = init_chat_model("claude-haiku-4-5-20251001")
 
   def query_database(state: MessagesState):
       query_result = db.run("SELECT * FROM Artist LIMIT 10;")
@@ -1341,7 +1342,7 @@ def route_bc_or_cd(state: State) -> Sequence[str]:
 
 </Tip>
 
-## Map-Reduce and the Send API
+## Map-Reduce and the send API
 
 LangGraph supports map-reduce and other advanced branching patterns using the Send API. Here is an example of how to use it:
 
@@ -2125,9 +2126,9 @@ except ImportError:
 
 ---
 
-<Callout icon="pen-to-square" iconType="regular">
-    [Edit the source of this page on GitHub.](https://github.com/langchain-ai/docs/edit/main/src/oss/langgraph/use-graph-api.mdx)
+<Callout icon="edit">
+    [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langgraph/use-graph-api.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
 </Callout>
-<Tip icon="terminal" iconType="regular">
-    [Connect these docs programmatically](/use-these-docs) to Claude, VSCode, and more via MCP for    real-time answers.
-</Tip>
+<Callout icon="terminal-2">
+    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+</Callout>
