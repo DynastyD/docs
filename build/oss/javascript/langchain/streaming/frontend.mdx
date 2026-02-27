@@ -71,7 +71,7 @@ Learn how to [deploy your agents to LangSmith](/oss/javascript/langchain/deploy)
 </ParamField>
 
 <ParamField body="apiUrl" type="string">
-    The URL of the LangGraph server. Defaults to `http://localhost:2024` for local development.
+    The URL of the Agent Server. Defaults to `http://localhost:2024` for local development.
 </ParamField>
 
 <ParamField body="apiKey" type="string">
@@ -466,11 +466,11 @@ For advanced use cases, use the `experimental_branchTree` property to get the tr
 
 ## Type-safe streaming
 
-The `useStream` hook supports full type inference when used with agents created via [`createAgent`](https://reference.langchain.com/javascript/functions/langchain.index.createAgent.html) or graphs created with [`StateGraph`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.StateGraph.html). Pass `typeof agent` or `typeof graph` as the type parameter to automatically infer tool call types.
+The `useStream` hook supports full type inference when used with agents created via [`createAgent`](https://reference.langchain.com/javascript/langchain/index/createAgent) or graphs created with [`StateGraph`](https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph). Pass `typeof agent` or `typeof graph` as the type parameter to automatically infer tool call types.
 
 ### With `createAgent`
 
-When using [`createAgent`](https://reference.langchain.com/javascript/functions/langchain.index.createAgent.html), tool call types are automatically inferred from the tools you register to your agent:
+When using [`createAgent`](https://reference.langchain.com/javascript/langchain/index/createAgent), tool call types are automatically inferred from the tools you register to your agent:
 
 
 
@@ -518,7 +518,7 @@ function Chat() {
 
 ### With `StateGraph`
 
-For custom [`StateGraph`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.StateGraph.html) applications, the state types are inferred from the graph's annotation:
+For custom [`StateGraph`](https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph) applications, the state types are inferred from the graph's annotation:
 
 
 
@@ -1616,7 +1616,7 @@ function CustomAPIChat({ apiKey }: { apiKey: string }) {
 
 ### Example: Streaming from Next.js endpoints
 
-You can host your agent in Next.js API routes instead of running a separate LangGraph server.The `useStream` hook communicates via Server-Sent Events (SSE), so any endpoint that returns the correct event format works—including your own Next.js route.
+You can host your agent in Next.js API routes instead of running a separate Agent Server. The `useStream` hook communicates via Server-Sent Events (SSE), so any endpoint that returns the correct event format works—including your own Next.js route.
 
 <Tip>
 **When to use your own API routes vs LangSmith**
