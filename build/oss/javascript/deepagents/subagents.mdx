@@ -78,7 +78,7 @@ For complex workflows, use a pre-built LangGraph graph:
 ## Using CompiledSubAgent
 
 For more complex use cases, you can provide your custom subagents.
-You can create a custom subagent using LangChain's `create_agent` or by making a custom LangGraph graph using the [graph API](https://github.com/langchain-ai/docs/pull/).
+You can create a custom subagent using LangChain's `create_agent` or by making a custom LangGraph graph using the [graph API](/oss/javascript/langgraph/graph-api).
 
 If you're creating a custom LangGraph graph, make sure that the graph has a [state key called `"messages"`](/oss/javascript/langgraph/quickstart#2-define-state):
 
@@ -105,7 +105,7 @@ const customSubagent: CompiledSubAgent = {
 const subagents = [customSubagent];
 
 const agent = createDeepAgent({
-  model: "claude-sonnet-4-5-20250929",
+  model: "claude-sonnet-4-6",
   tools: [internetSearch],
   systemPrompt: researchInstructions,
   subagents: subagents,
@@ -147,12 +147,12 @@ research_subagent = {
     "description": "Used to research more in depth questions",
     "system_prompt": "You are a great researcher",
     "tools": [internet_search],
-    "model": "claude-sonnet-4-5-20250929",  # Optional override, defaults to main agent model
+    "model": "claude-sonnet-4-6",  # Optional override, defaults to main agent model
 }
 subagents = [research_subagent]
 
 agent = create_deep_agent(
-    model="claude-sonnet-4-5-20250929",
+    model="claude-sonnet-4-6",
     subagents=subagents,
     name="main-agent"
 )
@@ -178,10 +178,39 @@ For more information, see [response format](/oss/javascript/langchain/structured
 ## The general-purpose subagent
 
 In addition to any user-defined subagents, deep agents have access to a `general-purpose` subagent at all times. This subagent:
+
 - Has the same system prompt as the main agent
 - Has access to all the same tools
 - Uses the same model (unless overridden)
 - Inherits skills from the main agent (when skills are configured)
+
+### Override the general-purpose subagent
+
+
+
+Include a subagent with `name: "general-purpose"` in your `subagents` list to replace the default. Use this to configure a different model, tools, or system prompt for the general-purpose subagent:
+
+```typescript
+import { createDeepAgent } from "deepagents";
+
+// Main agent uses Claude; general-purpose subagent uses GPT
+const agent = await createDeepAgent({
+  model: "claude-sonnet-4-6",
+  tools: [internetSearch],
+  subagents: [
+    {
+      name: "general-purpose",
+      description: "General-purpose agent for research and multi-step tasks",
+      systemPrompt: "You are a general-purpose assistant.",
+      tools: [internetSearch],
+      model: "openai:gpt-4o",  // Different model for delegated tasks
+    },
+  ],
+});
+```
+
+
+When you provide a subagent with the general-purpose name, the default general-purpose subagent is not added. Your spec fully replaces it.
 
 ### When to use it
 
@@ -217,7 +246,7 @@ const researchSubagent: SubAgent = {
 };
 
 const agent = createDeepAgent({
-  model: "claude-sonnet-4-5-20250929",
+  model: "claude-sonnet-4-6",
   skills: ["/skills/main/"],  // Main agent and GP subagent get these
   subagents: [researchSubagent],  // Gets only /skills/research/ and /skills/web-search/
 });
@@ -296,7 +325,7 @@ const subagents = [
     description: "Reviews legal documents and contracts",
     systemPrompt: "You are an expert legal reviewer...",
     tools: [readDocument, analyzeContract],
-    model: "claude-sonnet-4-5-20250929",  // Large context for long documents
+    model: "claude-sonnet-4-6",  // Large context for long documents
   },
   {
     name: "financial-analyst",
@@ -365,7 +394,7 @@ const subagents = [
 ];
 
 const agent = createDeepAgent({
-  model: "claude-sonnet-4-5-20250929",
+  model: "claude-sonnet-4-6",
   systemPrompt: "You coordinate data analysis and reporting. Use subagents for specialized tasks.",
   subagents: subagents,
 });
@@ -419,7 +448,7 @@ const contextSchema = z.object({
 });
 
 const agent = createDeepAgent({
-  model: "claude-sonnet-4-5-20250929",
+  model: "claude-sonnet-4-6",
   subagents: [researchSubagent],
   contextSchema,
 });
@@ -614,9 +643,11 @@ const subagents = [
 
 ---
 
+<div className="source-links">
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/deepagents/subagents.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
 </Callout>
 <Callout icon="terminal-2">
     [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
 </Callout>
+</div>

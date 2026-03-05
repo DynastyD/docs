@@ -76,6 +76,13 @@ graph.invoke(Command(resume=True), config=config)
 - The node restarts from the beginning of the node where the [`interrupt`](https://reference.langchain.com/python/langgraph/types/interrupt) was called when resumed, so any code before the [`interrupt`](https://reference.langchain.com/python/langgraph/types/interrupt) runs again
 - You can pass any JSON-serializable value as the resume value
 
+<Warning>
+
+`Command(resume=...)` is the **only** `Command` pattern intended as input to `invoke()`/`stream()`. The other `Command` parameters (`update`, `goto`, `graph`) are designed for [returning from node functions](/oss/python/langgraph/graph-api#command). Do not pass `Command(update=...)` as input to continue multi-turn conversations — pass a plain input dict instead.
+
+</Warning>
+
+
 
 
 
@@ -464,7 +471,7 @@ This approach is useful when you want the approval logic to live with the tool i
         return "Email cancelled by user"
 
 
-    model = ChatAnthropic(model="claude-sonnet-4-5-20250929").bind_tools([send_email])
+    model = ChatAnthropic(model="claude-sonnet-4-6").bind_tools([send_email])
 
 
     def agent_node(state: AgentState):
@@ -965,9 +972,11 @@ You can use [LangSmith Studio](/langsmith/studio) to set static interrupts in yo
 
 ---
 
+<div className="source-links">
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langgraph/interrupts.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
 </Callout>
 <Callout icon="terminal-2">
     [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
 </Callout>
+</div>

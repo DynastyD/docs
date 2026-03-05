@@ -558,7 +558,7 @@ might change during an agent run.
     import { createMiddleware, initChatModel } from "langchain";
 
     // Initialize models once outside the middleware
-    const largeModel = initChatModel("claude-sonnet-4-5-20250929");
+    const largeModel = initChatModel("claude-sonnet-4-6");
     const standardModel = initChatModel("gpt-4.1");
     const efficientModel = initChatModel("gpt-4.1-mini");
 
@@ -601,7 +601,7 @@ might change during an agent run.
     const MODEL_MAP = {
       "gpt-4.1": initChatModel("gpt-4.1"),
       "gpt-4.1-mini": initChatModel("gpt-4.1-mini"),
-      "claude-sonnet": initChatModel("claude-sonnet-4-5-20250929"),
+      "claude-sonnet": initChatModel("claude-sonnet-4-6"),
     };
 
     const storeBasedModel = createMiddleware({
@@ -645,7 +645,7 @@ might change during an agent run.
     });
 
     // Initialize models once outside the middleware
-    const premiumModel = initChatModel("claude-sonnet-4-5-20250929");
+    const premiumModel = initChatModel("claude-sonnet-4-6");
     const standardModel = initChatModel("gpt-4.1");
     const budgetModel = initChatModel("gpt-4.1-mini");
 
@@ -1132,9 +1132,11 @@ For a complete list of built-in middleware, available hooks, and how to create c
 
 ---
 
+<div className="source-links">
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langchain/context-engineering.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
 </Callout>
 <Callout icon="terminal-2">
     [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
 </Callout>
+</div>
